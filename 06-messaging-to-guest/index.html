@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #f0f0f0;
+            height: 100%;
+        }
+
+        .toolbar {
+            margin-bottom: 20px;
+        }
+
+        .portal {
+            width: 100%;
+            height: 600px;
+            display: block;
+        }
+
+        body.dark {
+            background: #403c3c;
+        }
+
+        body.dark [data-mode="light"] {
+            display: none;
+        }
+
+        body:not(.dark) [data-mode="dark"] {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="has-text-centered toolbar">
+            <button class="button is-large">
+                <span data-mode="dark">
+                    <i class="fas fa-sun"></i>&nbsp; Disable Dark Mode
+                </span>
+                <span data-mode="light">
+                    <i class="fas fa-moon"></i>&nbsp; Enable Dark Mode
+                </span>
+            </button>
+        </div>
+        <div class="box">
+            <portal src="./guest.html" class="portal"></portal>
+        </div>
+    </div>
+
+    <script lang="js">
+      const portal = document.querySelector('portal');
+      const button = document.querySelector('button');
+
+      let darkModeEnabled = false;
+
+      const updateTheme = (dark) => {
+        if (dark) {
+          document.body.classList.add('dark');
+          button.classList.add('is-dark');
+        } else {
+          document.body.classList.remove('dark');
+          button.classList.remove('is-dark');
+        }
+      };
+
+      portal.addEventListener('click', () => {
+        portal.activate();
+      });
+
+      button.addEventListener('click', () => {
+        darkModeEnabled = !darkModeEnabled;
+        updateTheme(darkModeEnabled);
+        portal.postMessage({darkMode: darkModeEnabled});
+      });
+    </script>
+</section>
+</body>
+</html>

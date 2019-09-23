@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #f0f0f0;
+        }
+
+        .navbar-menu {
+            display: flex;
+        }
+
+        .preview {
+            width: 900px;
+            height: 500px;
+            cursor: zoom-in;
+        }
+
+        .portal {
+            width: 1800px;
+            height: 1000px;
+            display: block;
+            z-index: 1000;
+            transform: scale(0.5, 0.5);
+            transform-origin: top left;
+        }
+
+        .portal.portal--reveal {
+            transform: scale(1, 1);
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0 !important;
+            top: 0 !important;
+            transition: all 1s;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">Cool CMS Themes</h1>
+        <h4 class="subtitle is-4">Find a PREMIUM theme for your content management system</h4>
+
+        <nav class="box navbar">
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item">Home</a>
+                    <a class="navbar-item"><strong>Gallery</strong></a>
+                    <a class="navbar-item">Pricing</a>
+                    <a class="navbar-item">Add NEW</a>
+                    <a class="navbar-item">Rules</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">More</a>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary">
+                                <strong>Sign up</strong>
+                            </a>
+                            <a class="button is-light">
+                                Log in
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="box">
+            <div class="content is-medium">
+                <h2>Simple Bulma Template</h2>
+                <p>
+                    Curabitur accumsan turpis pharetra <strong>augue tincidunt</strong> blandit. Quisque condimentum
+                    maximus mi, sit amet commodo arcu rutrum id. Proin pretium urna vel cursus venenatis. Suspendisse
+                    potenti. Etiam mattis sem rhoncus lacus dapibus facilisis. Donec at dignissim dui. Ut et neque nisl.
+                </p>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <div class="preview" id="preview">
+                        <portal src="./guest.html" class="portal" id="portal"></portal>
+                    </div>
+                </div>
+                <div class="column">
+                    <a class="button is-success">Buy this theme</a>
+                    <a class="button is-info">Ask the creator</a>
+                    <a class="button is-dark"><i class="fas fa-star"></i></a>
+
+                    <hr>
+
+                    <article class="message is-warning">
+                        <div class="message-header">
+                            <p>Promotion</p>
+                            <button class="delete" aria-label="delete"></button>
+                        </div>
+                        <div class="message-body">
+                            Get this amazing theme with <strong>-50% discount!</strong>
+                        </div>
+                    </article>
+
+                    <hr>
+
+                    <div class="content">
+                        <h3 class="title is-5">Features</h3>
+                        <ul>
+                            <li>Is very responsive</li>
+                            <li>Has colors</li>
+                            <li>Doesn't work with Wordpress</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="box">
+            <div class="has-text-centered">
+                <strong>Cool CMS Themes</strong> 2019
+            </div>
+        </footer>
+    </div>
+    <script lang="js">
+      const preview = document.getElementById('preview');
+      const previewRect = preview.getBoundingClientRect();
+
+      const setupListeners = (portal) => {
+        portal.addEventListener('click', () => {
+          portal.style.top = CSS.px(previewRect.top - window.scrollY);
+          portal.style.left = CSS.px(previewRect.left);
+          setTimeout(() => portal.classList.add('portal--reveal'));
+        });
+
+        portal.addEventListener('transitionend', () => {
+          portal.activate().then(
+            (...params) => console.log('SUCCESS', params),
+            (...params) => console.log('ERROR', params),
+          );
+        });
+      };
+
+      const replacePortal = (portal) => {
+        preview.removeChild(preview.querySelector('portal'));
+        preview.appendChild(portal);
+      };
+
+      setupListeners(preview.querySelector('portal'));
+
+      window.addEventListener('portalactivate', (event) => {
+        const portal = event.adoptPredecessor();
+
+        portal.classList.add('portal');
+        portal.setAttribute('id', 'portal');
+
+        replacePortal(portal);
+        setupListeners(portal);
+      });
+    </script>
+</section>
+</body>
+</html>

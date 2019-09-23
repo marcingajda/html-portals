@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #f0f0f0;
+        }
+
+        .navbar-menu {
+            display: flex;
+        }
+
+        .preview {
+            width: 100%;
+            height: 300px;
+            cursor: zoom-in;
+            position: relative;
+        }
+
+        .portal {
+            width: 1280px;
+            height: 600px;
+            display: block;
+            z-index: 1000;
+            transform: scale(0.5, 0.5);
+            transform-origin: top left;
+        }
+
+        .portal.portal--reveal {
+            transform: scale(1, 1);
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0 !important;
+            top: 0 !important;
+            transition: all 1s;
+        }
+
+        .star {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            width: 30px;
+            height: 30px;
+            background: #fff;
+            z-index: 2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1em;
+            border-radius: 50%;
+        }
+
+        .star.enabled {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <h1 class="title is-1">Cool CMS Themes</h1>
+        <h4 class="subtitle is-4">Find a PREMIUM theme for your content management system</h4>
+
+        <nav class="box navbar">
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a class="navbar-item">Home</a>
+                    <a class="navbar-item"><strong>Gallery</strong></a>
+                    <a class="navbar-item">Pricing</a>
+                    <a class="navbar-item">Add NEW</a>
+                    <a class="navbar-item">Rules</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">More</a>
+                    </div>
+                </div>
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a class="button is-primary">
+                                <strong>Sign up</strong>
+                            </a>
+                            <a class="button is-light">
+                                Log in
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="box">
+            <div class="columns">
+                <div class="column">
+                    <h1 class="title is-1">Themes Gallery</h1>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column is-6">
+                    <div class="content">
+                        <h2 class="title" data-title></h2>
+                        <h6 class="subtitle" data-tags></h6>
+                    </div>
+                    <div class="preview">
+                        <div class="star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <portal src="./guest.html" class="portal"></portal>
+                    </div>
+                </div>
+                <div class="column is-6">
+                    <div class="content">
+                        <h2 class="title" data-title></h2>
+                        <h6 class="subtitle" data-tags></h6>
+                    </div>
+                    <div class="preview">
+                        <div class="star">
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <portal src="./guest.html" class="portal"></portal>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer class="box">
+            <div class="has-text-centered">
+                <strong>Cool CMS Themes</strong> 2019
+            </div>
+        </footer>
+    </div>
+    <script lang="js">
+      const revealPortal = (portal, previewRect) => {
+        portal.style.top = CSS.px(previewRect.top - window.scrollY);
+        portal.style.left = CSS.px(previewRect.left);
+        setTimeout(() => portal.classList.add('portal--reveal'));
+      };
+
+      const setupPreview = (preview) => {
+        const portal = preview.querySelector('portal');
+        const star = preview.querySelector('.star');
+        const previewRect = preview.getBoundingClientRect();
+
+        portal.addEventListener('click', () => {
+          revealPortal(portal, previewRect);
+        });
+
+        portal.addEventListener('transitionend', () => {
+          portal
+            .activate()
+            .then(() => {}, () => {});
+        });
+
+        const setStarStatus = (enabled) => {
+          if (enabled) {
+            star.classList.add('enabled')
+          } else {
+            star.classList.remove('enabled')
+          }
+        };
+
+        const applyInformation = (message) => {
+          preview.previousElementSibling.querySelector('[data-title]').innerHTML = message.name;
+          preview.previousElementSibling.querySelector('[data-tags]').innerHTML = message.tags;
+          setStarStatus(message.premium);
+        };
+
+        portal.addEventListener('message', (event) => {
+          applyInformation(event.data);
+        });
+      };
+
+      document
+        .querySelectorAll('.preview')
+        .forEach((preview) => setupPreview(preview));
+    </script>
+</section>
+</body>
+</html>

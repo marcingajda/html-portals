@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Example article #1</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #f0f0f0;
+        }
+
+        .image {
+            margin-bottom: 30px;
+        }
+
+        .menu-list li ul {
+            list-style: none;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="box">
+            <img src="https://picsum.photos/seed/a/1280/400" alt="Placeholder image" class="image">
+            <h1 class="title is-1">Example article #1</h1>
+            <p class="content">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque vitae nulla ac libero dignissim
+                feugiat. Etiam tellus tellus, posuere vel leo eget, commodo porttitor diam. Vestibulum nulla ante,
+                congue eu gravida sit amet, sollicitudin ac ex. Pellentesque eget consequat ligula, ac molestie ligula.
+                Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nulla facilisi.
+                Curabitur vitae tellus ut arcu accumsan interdum. Praesent erat lectus, facilisis quis finibus at,
+                posuere ac eros. Cras luctus nunc non enim lacinia condimentum. Phasellus eu nisl eget justo faucibus
+                dignissim et at neque. Curabitur mauris risus, rhoncus vitae quam laoreet, pulvinar dignissim nunc. Sed
+                imperdiet elementum pretium.
+            </p>
+            <button class="button">
+                See 11 comments
+            </button>
+        </div>
+    </div>
+    <div id="preview" class="preview">
+    </div>
+    <script lang="js">
+      if (window.portalHost) {
+        window.portalHost.postMessage({
+          comments: '11 comments',
+        })
+      }
+    </script>
+</section>
+</body>
+</html>

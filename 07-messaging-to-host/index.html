@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <style>
+        html, body {
+            background: #f0f0f0;
+        }
+
+        .card {
+            cursor: pointer;
+        }
+
+        .preview {
+            z-index: 2;
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            left: 0;
+            top: -1000px;
+            display: none;
+            opacity: 0;
+            transition: 1s;
+        }
+
+        .preview.reveal {
+            display: block;
+        }
+
+        .preview.animate {
+            opacity: 1;
+            top: 0;
+        }
+
+        portal {
+            width: 100vw;
+            height: 100vh;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <div class="card">
+                    <div class="preview">
+                        <portal src="./article1.html"></portal>
+                    </div>
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/seed/a/1280/960" alt="Placeholder image">
+                    </figure>
+                    <div class="card-content">
+                        <p class="title">
+                            Example article #1
+                        </p>
+                        <p class="subtitle">
+                            Lorem Ipsum
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <i class="fas fa-comments"></i>&nbsp;
+                            <span data-comments>See comments</span>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <div class="preview">
+                        <portal src="./article2.html"></portal>
+                    </div>
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/seed/b/1280/960" alt="Placeholder image">
+                    </figure>
+                    <div class="card-content">
+                        <p class="title">
+                            Example article #2
+                        </p>
+                        <p class="subtitle">
+                            Hello world
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <i class="fas fa-comments"></i>&nbsp;
+                            <span data-comments>See comments</span>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <div class="preview">
+                        <portal src="./article3.html"></portal>
+                    </div>
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/seed/c/1280/960" alt="Placeholder image">
+                    </figure>
+                    <div class="card-content">
+                        <p class="title">
+                            Example article #3
+                        </p>
+                        <p class="subtitle">
+                            Foo Bar
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <i class="fas fa-comments"></i>&nbsp;
+                            <span data-comments>See comments</span>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+            <div class="column">
+                <div class="card">
+                    <div class="preview">
+                        <portal src="./article4html"></portal>
+                    </div>
+                    <figure class="image is-4by3">
+                        <img src="https://picsum.photos/seed/d/1280/960" alt="Placeholder image">
+                    </figure>
+                    <div class="card-content">
+                        <p class="title">
+                            Example article #4
+                        </p>
+                        <p class="subtitle">
+                            fkjerbgkebjbejgd
+                        </p>
+                    </div>
+                    <footer class="card-footer">
+                        <p class="card-footer-item">
+                            <i class="fas fa-comments"></i>&nbsp;
+                            <span data-comments>See comments</span>
+                        </p>
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script lang="js">
+      const setupCard = (card) => {
+        const portal = card.querySelector('portal');
+        const preview = card.querySelector('.preview');
+
+        portal.addEventListener('message', (event) => {
+          card.querySelector('[data-comments]').innerHTML = event.data.comments;
+        });
+
+        card.addEventListener('click', () => {
+          preview.classList.add('reveal');
+          setTimeout(() => preview.classList.add('animate'));
+        });
+
+        preview.addEventListener('transitionend', () => {
+          portal.activate();
+        });
+      };
+
+      document
+        .querySelectorAll('.card')
+        .forEach((card) => setupCard(card));
+    </script>
+</section>
+</body>
+</html>

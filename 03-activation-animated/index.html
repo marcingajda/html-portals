@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #f0f0f0;
+            height: 100%;
+        }
+        .portal {
+            width: 1000px;
+            height: 600px;
+            transition: all 2s;
+            margin: auto;
+            display: block;
+        }
+        .portal.portal--reveal {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            left: 0  !important;
+            top: 0 !important;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <portal src="https://news.ycombinator.com/" class="portal" id="portal"></portal>
+    </div>
+    <script lang="js">
+      const portal = document.getElementById('portal');
+      const box = portal.getBoundingClientRect();
+      portal.style.top = CSS.px(box.top);
+      portal.style.left = CSS.px(box.left);
+
+      portal.addEventListener('click', () => {
+        portal.classList.add('portal--reveal');
+      });
+
+      portal.addEventListener('transitionend', () => {
+        portal.activate();
+      });
+    </script>
+</section>
+</body>
+</html>

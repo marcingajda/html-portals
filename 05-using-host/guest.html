@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Activation</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <style>
+        html, body {
+            background: #403c3c;
+        }
+        .menu-list li ul {
+            list-style: none;
+        }
+        .preview {
+            width: 340px;
+            height: 180px;
+            overflow: hidden;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            cursor: pointer;
+            border: 10px solid white;
+            display: none;
+        }
+        .preview.animated {
+            display: block;
+        }
+        .preview portal {
+            width: 1600px;
+            height: 800px;
+            transform: scale(0.2, 0.2);
+            transform-origin: top left;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="container">
+        <div class="tile is-ancestor is-vertical">
+            <div class="tile is-parent">
+                <div class="tile is-child notification is-info">
+                    <div class="content">
+                        <p class="title">Website Title</p>
+                        <p class="subtitle">Interesting catchphrase</p>
+                    </div>
+                </div>
+            </div>
+            <div class="tile is-12">
+                <div class="tile is-parent is-8">
+                    <div class="tile is-child notification">
+                        <div class="content is-medium">
+                            <h1>Hello World</h1>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla accumsan, metus ultrices
+                                eleifend gravida, nulla nunc varius lectus, nec rutrum justo nibh eu lectus. Ut
+                                vulputate semper dui. Fusce erat odio, sollicitudin vel erat vel, interdum mattis
+                                neque.</p>
+                            <h2>Second level</h2>
+                            <p>Curabitur accumsan turpis pharetra <strong>augue tincidunt</strong> blandit. Quisque
+                                condimentum maximus mi, sit amet commodo arcu rutrum id. Proin pretium urna vel cursus
+                                venenatis. Suspendisse potenti. Etiam mattis sem rhoncus lacus dapibus facilisis. Donec
+                                at dignissim dui. Ut et neque nisl.</p>
+                            <ul>
+                                <li>In fermentum leo eu lectus mollis, quis dictum mi aliquet.</li>
+                                <li>Morbi eu nulla lobortis, lobortis est in, fringilla felis.</li>
+                                <li>Aliquam nec felis in sapien venenatis viverra fermentum nec lectus.</li>
+                                <li>Ut non enim metus.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="tile is-parent is-4">
+                    <div class="tile is-child box">
+                        <div class="content">
+                            <aside class="menu">
+                                <p class="menu-label">
+                                    General
+                                </p>
+                                <ul class="menu-list">
+                                    <li><a>Dashboard</a></li>
+                                    <li><a>Customers</a></li>
+                                </ul>
+                                <p class="menu-label">
+                                    Administration
+                                </p>
+                                <ul class="menu-list">
+                                    <li><a>Team Settings</a></li>
+                                    <li>
+                                        <a class="is-active">Manage Your Team</a>
+                                        <ul>
+                                            <li><a>Members</a></li>
+                                            <li><a>Plugins</a></li>
+                                            <li><a>Add a member</a></li>
+                                        </ul>
+                                    </li>
+                                    <li><a>Invitations</a></li>
+                                    <li><a>Cloud Storage Environment Settings</a></li>
+                                    <li><a>Authentication</a></li>
+                                </ul>
+                                <p class="menu-label">
+                                    Transactions
+                                </p>
+                                <ul class="menu-list">
+                                    <li><a>Payments</a></li>
+                                    <li><a>Transfers</a></li>
+                                    <li><a>Balance</a></li>
+                                </ul>
+                            </aside>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="preview" class="preview">
+    </div>
+    <script lang="js">
+      const preview = document.getElementById('preview');
+
+      window.addEventListener('portalactivate', (event) => {
+        const portal = event.adoptPredecessor();
+        preview.appendChild(portal);
+
+        preview.classList.add('animated', 'fadeInRight');
+
+        // bugfix: force rerender to show correct frame
+        portal.style.zIndex = '100';
+
+        preview.addEventListener('click', () => {
+          preview.classList.remove('animated', 'fadeInRight');
+          portal.activate().then(() => preview.removeChild(portal));
+        });
+      });
+    </script>
+</section>
+</body>
+</html>
